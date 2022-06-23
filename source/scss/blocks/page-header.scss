@@ -246,11 +246,13 @@
       content: "";
       position: absolute;
       bottom: 0;
-      width: 100%;
+      width: 0;
       height: 2px;
       background-color: $c-light;
-      display: none;
+      //display: none;
+      display: block;
       left: 0;
+      transition: width 0.3s ease-out;
 
       @media (max-width: $tablet) and (orientation: portrait) {
         left: 0;
@@ -266,8 +268,13 @@
     }
 
     &.active {
+      border-bottom: 1px solid #fff;
       &::after {
         display: block;
+      }
+      &:hover:after,
+      &:focus:after {
+        width: 0; 
       }
     }
 
@@ -275,11 +282,17 @@
     &:focus {
       color: $c-purple;
       outline: none;
+      width: 100%;
 
       &::after {
         opacity: 1;
         background-color: $c-purple;
       }
+    }
+
+    &:hover:after,
+    &:focus:after {
+      width: 100%; 
     }
   }
 }

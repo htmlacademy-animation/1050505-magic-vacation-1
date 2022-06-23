@@ -97,6 +97,13 @@
   font-size: 1.8rem;
   line-height: 2rem;
 
+  opacity: 0;
+
+  .swiper-slide-active &,
+  .swiper-slide-next & {
+    animation: fadeRightToLeft 0.3s forwards;
+    animation-delay: 0.3s;
+  }
   @media (min-width: $stop-scaling) {
     margin-top: 36px;
     max-width: 340px;
@@ -274,5 +281,16 @@
       height: 0.4rem;
       background-color: $c-light;
     }
+  }
+}
+
+@keyframes fadeRightToLeft {
+  0% {
+    transform: translateX(15%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

@@ -28,6 +28,7 @@
 
 .page-header__logo {
   @include hover;
+
   position: relative;
   flex: none;
   top: -0.5rem;
@@ -35,6 +36,9 @@
   padding: 1rem 0;
   width: 10rem;
   color: $c-light;
+
+  @include add-transition;
+  transform: translate(-100px, 0);
 
   @media (min-width: $stop-scaling) {
     top: -5px;
@@ -130,6 +134,9 @@
 .page-header__nav {
   display: flex;
   align-items: center;
+
+  @include add-transition;
+  transform: translate(100px);
 
   @media (max-width: $tablet) and (orientation: portrait) {
     position: fixed;

@@ -38,7 +38,7 @@
   color: $c-light;
 
   @include add-transition;
-  transform: translate(-100px, 0);
+  transform: translate(-110px, 0);
 
   @media (min-width: $stop-scaling) {
     top: -5px;

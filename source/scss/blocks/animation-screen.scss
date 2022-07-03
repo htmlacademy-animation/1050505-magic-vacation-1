@@ -1,5 +1,5 @@
 .prizes--bg .animate-bg {
-  transform: scaleY(1);
+    transform: scaleY(1);
 }
 
 .prizes--bg .active {
@@ -17,7 +17,7 @@
   background-color: $c-dark;
   transform: scaleY(0);
   transform-origin: 50% 100%;
-  transition: transform 8100ms ease-out;
+  transition: transform 800ms ease-out;
 }
 .prizes--active {
   transition: all 0.5s ease;

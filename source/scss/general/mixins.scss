@@ -58,3 +58,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@mixin add-transition  {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.4s;
+  transition-delay: 0.5s;
+  transition-timing-function: cubic-bezier(0, 0.8, 0.46, 1);
+}

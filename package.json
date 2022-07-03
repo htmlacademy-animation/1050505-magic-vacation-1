@@ -6,7 +6,6 @@
     "@htmlacademy/editorconfig-cli": "1.x",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.5.1",
-    "csso-webpack-plugin": "2.0.0-beta.1",
     "eslint": "6.5.1",
     "eslint-config-htmlacademy": "0.5.2",
     "gulp": "4.0.x",
@@ -55,6 +54,7 @@
     "source/sass/**/*.{sass,scss}"
   ],
   "dependencies": {
+    "csso-webpack-plugin": "^2.0.0-beta.3",
     "normalize.css": "8.0.1",
     "swiper": "5.3.8",
     "three": "0.115.0"

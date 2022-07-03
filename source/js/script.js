@@ -23,3 +23,10 @@ animate();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();
+init();
+
+function init() {
+    window.addEventListener(`load`, () => {
+        document.body.classList.add(`add-transition`);
+    }, {once: true});
+}

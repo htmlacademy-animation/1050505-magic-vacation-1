@@ -10427,7 +10427,7 @@ __webpack_require__.r(__webpack_exports__);
 class FullPageScroll {
   constructor() {
     this.THROTTLE_TIMEOUT = 1000;
-    this.CUSTOM_SCREEN_CHANGE_TIMEOUT = 700;
+    this.CUSTOM_SCREEN_CHANGE_TIMEOUT = 750;
     this.SCREEN_ACTIVATE_TIMEOUT = 100;
     this.scrollFlag = true;
     this.timeout = null;

@@ -1010,18 +1010,20 @@ img {
   opacity: 0;
 }
 
+.prizes--bg .screen--intro {
+  z-index: -1;
+}
+
 .animate-bg {
-  content: "";
   position: absolute;
   z-index: 1;
-  bottom: 0;
+  bottom: -100%;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: #5f458c;
-  transform: scaleY(0);
-  transform-origin: 50% 100%;
-  transition: transform 800ms ease-out;
+  transition: bottom 0.4s cubic-bezier(0.14, 0.57, 0.32, 0.9);
 }
 
 .prizes--active {
@@ -1074,6 +1076,18 @@ img {
 .add-transition .screen__footer {
   transform: translate(0, 0);
   opacity: 1;
+}
+
+.screen--prizes.screen--hidden.active {
+  display: block;
+  position: absolute;
+}
+.screen--prizes.screen--hidden.active ~ .animate-bg {
+  bottom: 0;
+}
+
+.screen--prizes.active:not(.screen--hidden) ~ .animate-bg {
+  display: none;
 }
 
 .btn {

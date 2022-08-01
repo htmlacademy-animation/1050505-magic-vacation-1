@@ -3,6 +3,8 @@ import throttle from 'lodash/throttle';
 export default class FullPageScroll {
   constructor() {
     this.THROTTLE_TIMEOUT = 1000;
+    this.CUSTOM_SCREEN_CHANGE_TIMEOUT = 700;
+    this.SCREEN_ACTIVATE_TIMEOUT = 100;
     this.scrollFlag = true;
     this.timeout = null;
 
@@ -52,14 +54,33 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
+    const isCustomScreenNext = this.screenElements[this.activeScreen].classList.contains(`screen--prizes`);
+
     this.screenElements.forEach((screen) => {
-      screen.classList.add(`screen--hidden`);
-      screen.classList.remove(`active`);
+      // custom behavior for "prizes" screen change
+      if (isCustomScreenNext && screen.classList.contains(`active`)) {
+        setTimeout(() => {
+          screen.classList.add(`screen--hidden`);
+          screen.classList.remove(`active`);
+        }, this.CUSTOM_SCREEN_CHANGE_TIMEOUT);
+      } else {
+        screen.classList.add(`screen--hidden`);
+        screen.classList.remove(`active`);
+      }
     });
-    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+
+    // custom behavior for "prizes" screen change
+    if (isCustomScreenNext) {
+      setTimeout(() => {
+        this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+      }, this.CUSTOM_SCREEN_CHANGE_TIMEOUT);
+    } else {
+      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }
+
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
-    }, 100);
+    }, this.SCREEN_ACTIVATE_TIMEOUT);
   }
 
   changeActiveMenuItem() {

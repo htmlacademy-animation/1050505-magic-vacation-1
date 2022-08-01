@@ -5,20 +5,24 @@
 .prizes--bg .active {
   opacity: 0;
 }
-
+.prizes--bg .screen--intro {
+  z-index: -1;
+}
 .animate-bg {
-  content: "";
+  //content: "";
   position: absolute;
   z-index: 1;
-  bottom: 0;
+  bottom: -100%;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: $c-dark;
-  transform: scaleY(0);
-  transform-origin: 50% 100%;
-  transition: transform 800ms ease-out;
+  //transform: scaleY(0);
+ // transform-origin: 50% 100%;
+  transition: bottom 0.4s $t-long-ease-out;
 }
+
 .prizes--active {
   transition: all 0.5s ease;
   opacity: 1!important;
@@ -67,4 +71,19 @@
 .add-transition .screen__footer {
   transform: translate(0, 0);
   opacity: 1;
+}
+
+.screen--prizes.screen--hidden.active {
+  display: block;
+  position: absolute;
+  
+  & ~ .animate-bg {
+     bottom: 0;
+  }
+}
+
+.screen--prizes.active:not(.screen--hidden) {
+  & ~ .animate-bg {
+    display: none;
+  }
 }

@@ -66,3 +66,31 @@
   transition-delay: 0.5s;
   transition-timing-function: cubic-bezier(0, 0.8, 0.46, 1);
 }
+
+@mixin letter-animation($offset) {
+  padding-top: 0.2em;
+
+  .text__word {
+    display: inline-block;
+    padding-right: 0.1em;
+    margin-right: 0.14em;
+    overflow-y: hidden;
+    padding-top: 0.2em;
+    margin-top: -0.4em;
+    white-space: nowrap;
+  }
+
+  .text__word > span {
+    opacity: 0;
+    transform: translate3d(0, $offset, 0);
+    display: inline-block;
+    letter-spacing: -0.05em;
+  }
+
+  &.animate {
+    .text__word > span {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}

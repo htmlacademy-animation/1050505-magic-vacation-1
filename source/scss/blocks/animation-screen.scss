@@ -58,9 +58,16 @@
 }
 
 
-.add-transition .page-header__nav {
+.menu-opened .page-header__nav {
   transform: translate(0, 0);
   opacity: 1;
+}
+
+.add-transition .page-header__nav {
+  @media (min-width:768px) {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
 }
 
 .add-transition .page-header__logo {

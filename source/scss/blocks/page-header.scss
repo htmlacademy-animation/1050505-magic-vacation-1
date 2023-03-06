@@ -40,6 +40,11 @@
   @include add-transition;
   transform: translate(-110px, 0);
 
+  body.add-transition & {
+    left: 0;
+    opacity: 1;
+  }
+
   @media (min-width: $stop-scaling) {
     top: -5px;
     padding: 10px 0;
@@ -134,9 +139,15 @@
 .page-header__nav {
   display: flex;
   align-items: center;
+ 
+  opacity: 0;
+  transition: opacity 1000ms cubic-bezier(0.1, 0.97, 0.6, 0.96);
+  //@include add-transition;
+  //transform: translate(100px);
 
-  @include add-transition;
-  transform: translate(100px);
+  body.menu-opened & {
+    opacity: 1;
+  }
 
   @media (max-width: $tablet) and (orientation: portrait) {
     position: fixed;
@@ -300,6 +311,39 @@
     &:hover:after,
     &:focus:after {
       width: 100%; 
+    }
+
+    .page-header--water & {
+      &:hover,
+      &:focus {
+        color: $secondary-light;
+
+        &::after {
+          background-color: $secondary-light;
+        }
+      }
+    }
+
+    .page-header--ice & {
+      &:hover,
+      &:focus {
+        color: $tertiary-contrast;
+
+        &::after {
+          background-color: $tertiary-contrast;
+        }
+      }
+    }
+
+    .page-header--light & {
+      &:hover,
+      &:focus {
+        color: $c-dark;
+
+        &::after {
+          background-color: $c-dark;
+        }
+      }
     }
   }
 }

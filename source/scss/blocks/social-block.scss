@@ -84,6 +84,83 @@
       border-color: $c-purple;
     }
   }
+  .page-header--water & {
+    color: $secondary;
+
+    &:hover {
+      color: $secondary-light;
+    }
+
+    &:focus {
+      color: $secondary-light;
+
+      &::before {
+        border-color: $secondary-light;
+      }
+    }
+
+    &:active,
+    &:active:focus {
+      color: $c-light;
+
+      &::before {
+        background-color: $secondary-light;
+        border-color: $secondary-light;
+      }
+    }
+  }
+
+  .page-header--ice & {
+    color: $tertiary;
+
+    &:hover {
+      color: $tertiary-contrast;
+    }
+
+    &:focus {
+      color: $tertiary-contrast;
+
+      &::before {
+        border-color: $tertiary-contrast;
+      }
+    }
+
+    &:active,
+    &:active:focus {
+      color: $c-light;
+
+      &::before {
+        background-color: $tertiary-contrast;
+        border-color: $tertiary-contrast;
+      }
+    }
+  }
+
+  .page-header--light & {
+    color: $c-purple;
+
+    &:hover {
+      color: $c-dark;
+    }
+
+    &:focus {
+      color: $c-dark;
+
+      &::before {
+        border-color: $c-dark;
+      }
+    }
+
+    &:active,
+    &:active:focus {
+      color: $c-light;
+
+      &::before {
+        background-color: $c-dark;
+        border-color: $c-dark;
+      }
+    }
+  }
 }
 
 .social-block__list {

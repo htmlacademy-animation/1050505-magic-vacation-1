@@ -9,7 +9,7 @@ import form from './modules/form.js';
 import social from './modules/social.js';
 import {AnimationSettings, TextAniMaker} from './modules/title.js';
 import FullPageScroll from './modules/full-page-scroll';
-import svgLoader from './modules/svg-loader';
+//import svgLoader from './modules/svg-loader';
 
 // init modules
 mobileHeight();
@@ -25,8 +25,8 @@ const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();
 init();
 
-svgLoader(fullPageScroll.activeScreen);
-init();
+//svgLoader(fullPageScroll.activeScreen);
+//init();
 
 function init() {
     window.addEventListener(`load`, () => {

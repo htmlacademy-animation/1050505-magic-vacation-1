@@ -171,7 +171,7 @@
     }
   }
 
-  &--cases {
+  &--codes {
     margin-left: 7rem;
     opacity: 0;
 
@@ -206,8 +206,26 @@
     }
   }
 
-  &--codes {
-    opacity: 0;
+  @keyframes slideSecondPrize {
+    0% {
+      opacity: 0;
+      transform: translateX(15em);
+      animation-timing-function: ease;
+    }
+  
+    100% {
+      transform: translateX(15em);
+      animation-timing-function: ease;
+      opacity: 1;
+    }
+  }
+
+  &--cases {
+    margin-left: 7rem;
+
+    @media (min-width: $tablet) and (orientation: landscape) {
+      animation: slideSecondPrize 3.2s ease;
+    }
 
     @media (max-width: $tablet) and (orientation: portrait) {
       padding-left: 0.8rem;

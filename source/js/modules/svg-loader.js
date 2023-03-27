@@ -14,6 +14,9 @@ function insertSvgImg({src, target}) {
       [
         {src: `img/animated/award.svg`, target: `.prizes__icon`}
       ].forEach(insertSvgImg);
+      [
+        {src: `img/prize2.svg`, target: `.prizes__icon--two`}
+      ].forEach(insertSvgImg);
     }
   }
   

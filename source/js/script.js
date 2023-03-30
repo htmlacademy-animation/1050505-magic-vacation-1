@@ -7,6 +7,7 @@ import chat from './modules/chat.js';
 import result from './modules/result.js';
 import form from './modules/form.js';
 import social from './modules/social.js';
+import game from './modules/game.js';
 import {AnimationSettings, TextAniMaker} from './modules/title.js';
 import FullPageScroll from './modules/full-page-scroll';
 //import svgLoader from './modules/svg-loader';
@@ -20,6 +21,7 @@ chat();
 result();
 form();
 social();
+game();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();

@@ -389,3 +389,27 @@
 .screen--rules {
   background-color: $c-dark;
 }
+
+.screen--show_animation {
+  & .result__screen-img {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      transform $result-screen-img-anim-timing-function $result-screen-img-anim-duration,
+      opacity ease-out $result-screen-img-anim-duration;
+
+    & .result__screen-img-item--suitcase {
+      transform: scale(1);
+      transition: transform ease-out $result-screen-img-anim-duration;
+    }
+  }
+
+  & .result__button {
+    opacity: 1;
+    transition: opacity $result-button-show-opacity-duration ease-out;
+  }
+
+  & .result__button-circle-arrow {
+    animation: anim-wheel-rotate-right $result-button-show-anim-duration ease-out;
+  }
+}

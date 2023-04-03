@@ -10,6 +10,7 @@ import social from './modules/social.js';
 import game from './modules/game.js';
 import {AnimationSettings, TextAniMaker} from './modules/title.js';
 import FullPageScroll from './modules/full-page-scroll';
+import headingAnimation from "./modules/heading-animate";
 //import svgLoader from './modules/svg-loader';
 
 // init modules
@@ -22,6 +23,7 @@ result();
 form();
 social();
 game();
+headingAnimation();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();

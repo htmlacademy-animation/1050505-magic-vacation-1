@@ -26,3 +26,16 @@ $retina-dppx: 1.5dppx;
 
 $index: 1.38871;
 $t-long-ease-out: cubic-bezier(0.14, 0.57, 0.32, 0.9);
+
+/* region result */
+$result-screen-img-anim-timing-function: cubic-bezier(0.69, 1.5, 0.83, 1.18);
+$result-screen-img-anim-duration: .5s;
+$result-screen-img-other-anim-delay: .4s;
+
+$result-screen-img-anim-other-duration: 3s;
+$result-screen-img-anim-green-duration: $result-screen-img-anim-other-duration - 0.2s;
+$result-screen-anim-form-delay: 1s;
+
+$result-button-show-anim-duration: .3s;
+$result-button-show-opacity-duration: .3s;
+/* endregion result */

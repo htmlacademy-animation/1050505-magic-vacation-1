@@ -11,6 +11,7 @@ import game from './modules/game.js';
 import {AnimationSettings, TextAniMaker} from './modules/title.js';
 import FullPageScroll from './modules/full-page-scroll';
 import headingAnimation from "./modules/heading-animate";
+import rulesPage from './modules/rules-page.js';
 //import svgLoader from './modules/svg-loader';
 
 // init modules
@@ -24,6 +25,7 @@ form();
 social();
 game();
 headingAnimation();
+rulesPage();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();

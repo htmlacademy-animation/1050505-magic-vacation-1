@@ -264,6 +264,27 @@
   }
 }
 
+.rules__link-inner {
+  opacity: 0;
+}
+
+.rules__link_show {
+  .rules__link-inner {
+    opacity: 1;
+    transition: opacity .3s;
+  }
+
+  &:before {
+    animation: anim_show_link_begin $rules-btn-anim-duration forwards;
+  }
+}
+
+@keyframes anim_show_link_begin {
+  to {
+    opacity: 1;
+    width: 100%;
+  }
+}
 
 @keyframes fadeInRightToLeft {
   0% {

@@ -71,4 +71,7 @@ function easeLinear(x) {
   
   
   export default animMethod;
+
+export const WW = window.innerWidth;
+export const WH = window.innerHeight;
   

@@ -104,16 +104,6 @@
   }
 }
 
-@keyframes slideFirstPrize {
-  0% {
-    transform: translateX(15em);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
 .prizes__item {
   margin-left: 7.5rem;
 
@@ -136,10 +126,47 @@
     margin-left: 5rem;
   }
 
+  @media (min-width: $tablet) {
+    .screen--prizes.active & {
+      &--journeys .prizes__icon {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out 0.5s;
+      }
+
+      &--journeys .prizes__desc b {
+        opacity: 1;
+        transition: opacity 0.1ms ease-in-out 3.5s;
+      }
+
+      &--journeys .prizes__desc span {
+        opacity: 1;
+        transition: all 0.5s linear 3.5s;
+        transform: translateX(0);
+      }
+    }
+  }
+
   &--journeys {
-    @media (min-width: $tablet) and (orientation: landscape) {
-      transform: translateX(15em);
-      animation: slideFirstPrize 500ms 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    @media (min-width: $tablet) {
+      animation-name: translate-main-prize;
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+      animation-delay: 4.3s;
+
+      .prizes__desc {
+        justify-content: center;
+        margin-left: 4rem;
+      }
+
+      .prizes__desc b,
+      .prizes__desc span {
+        opacity: 0;
+      }
+
+      .prizes__desc span {
+        transform: translateX(3rem);
+      }
     }
 
     .prizes__icon {
@@ -147,6 +174,12 @@
       left: -5.9rem;
       bottom: -1.4rem;
       width: 26.8rem;
+
+      @media (min-width: $tablet) {
+        bottom: 0;
+        opacity: 0;
+        width: 34rem;
+      }
 
       @media (min-width: $stop-scaling) {
         left: -59px;
@@ -171,23 +204,58 @@
     }
   }
 
+  @media (min-width: $tablet) {
+    .screen--prizes.active & {
+      &--cases .prizes__desc b {
+        opacity: 1;
+        transition: opacity 0.1ms ease-in-out 6.5s;
+      }
+
+      &--cases .prizes__desc span {
+        opacity: 1;
+        transition: all 0.5s linear 6.5s;
+        transform: translateX(0);
+      }
+    }
+  }
+
   &--cases {
     margin-left: 7rem;
+
+    @media (min-width: $tablet) {
+      opacity: 0;
+      animation-name: show-cases;
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+      animation-delay: 4.8s;
+
+      .prizes__desc {
+        margin-left: 7rem;
+      }
+
+      .prizes__desc b,
+      .prizes__desc span {
+        opacity: 0;
+      }
+
+      .prizes__desc span {
+        transform: translateX(3rem);
+      }
+    }
 
     @media (min-width: $stop-scaling) {
       margin-left: 70px;
     }
 
     @media (max-width: $tablet) and (orientation: portrait) {
-      margin-left: 5rem;
+      margin-left: 0;
+      padding-left: 1.5rem;
     }
 
     .prizes__icon {
-      @media (min-width: $tablet) and (orientation: landscape) {
-        position: relative;
-        left: -5.9rem;
-        bottom: -1.4rem;
-        width: 26.8rem;
+      @media (min-width: $tablet) {
+        width: 29rem;
       }
 
       @media (min-width: $stop-scaling) {
@@ -209,21 +277,57 @@
     }
   }
 
+  @media (min-width: $tablet) {
+    .screen--prizes.active & {
+      &--codes .prizes__desc b {
+        opacity: 1;
+        transition: opacity 0.1ms ease-in-out 7.5s;
+      }
+
+      &--codes .prizes__desc span {
+        opacity: 1;
+        transition: all 0.5s linear 7.5s;
+        transform: translateX(0);
+      }
+    }
+  }
+
   &--codes {
+    @media (min-width: $tablet) {
+      opacity: 0;
+      animation-name: show-cases-last;
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+      animation-delay: 7s;
+
+      .prizes__icon {
+        width: 28rem;
+      }
+
+      .prizes__desc {
+        margin-left: 2rem;
+      }
+
+      .prizes__desc b,
+      .prizes__desc span {
+        opacity: 0;
+      }
+
+      .prizes__desc b {
+        width: 18rem;
+      }
+
+      .prizes__desc span {
+        transform: translateX(3rem);
+      }
+    }
+
     @media (max-width: $tablet) and (orientation: portrait) {
       padding-left: 0.8rem;
     }
 
     .prizes__icon {
-      width: 26rem;
-
-      @media (min-width: $tablet) and (orientation: landscape) {
-        position: relative;
-        left: -5.9rem;
-        bottom: -1.4rem;
-        width: 26.8rem;
-      }
-
       @media (min-width: $stop-scaling) {
         width: 260px;
       }
@@ -261,12 +365,6 @@
   margin: 5.6rem 0 0 0;
   font-size: 1.8rem;
   line-height: 1.1;
-  opacity: 0;
-  transition: opacity 1300ms 500ms ease-out;
-
-  .prizes__item--active & {
-    opacity: 1;
-  }
 
   @media (min-width: $stop-scaling) {
     margin-top: 56px;
@@ -360,5 +458,47 @@
       width: 0.5rem;
       height: 0.5rem;
     }
+  }
+}
+
+@keyframes translate-main-prize {
+  0% {
+    transform: translateX(40rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes show-cases {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes translate-case {
+  0% {
+    transform: translateX(7rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes show-cases-last {
+  0% {
+    opacity: 0;
+    transform: translateX(7rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

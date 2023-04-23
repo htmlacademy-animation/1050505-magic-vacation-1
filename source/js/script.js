@@ -7,12 +7,10 @@ import chat from './modules/chat.js';
 import result from './modules/result.js';
 import form from './modules/form.js';
 import social from './modules/social.js';
-import game from './modules/game.js';
-import {AnimationSettings, TextAniMaker} from './modules/title.js';
 import FullPageScroll from './modules/full-page-scroll';
-import headingAnimation from "./modules/heading-animate";
-import rulesPage from './modules/rules-page.js';
-//import svgLoader from './modules/svg-loader';
+import base from './modules/base';
+import AccentTypographyBuild from './modules/text-animation';
+import Intro from "./modules/three-js/into";
 
 // init modules
 mobileHeight();
@@ -23,26 +21,20 @@ chat();
 result();
 form();
 social();
-game();
-headingAnimation();
-rulesPage();
+base();
+
+const intro = new Intro(`canvas-homepage`);
+
+document.body.addEventListener(`screenChanged`, (event) => {
+  if (event.detail.screenName === `top`) {
+    intro.init();
+  }
+});
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();
-init();
 
-//svgLoader(fullPageScroll.activeScreen);
-//init();
-
-function init() {
-    window.addEventListener(`load`, () => {
-        document.body.classList.add(`add-transition`);
-    }, {once: true});
-}
-
-const animationSettings = new AnimationSettings();
-const taglineTransformer = new TextAniMaker(document.querySelector(`.intro__title`), animationSettings);
-const dateTransformer = new TextAniMaker(document.querySelector(`.intro__date`), animationSettings);
-   taglineTransformer.runAnimation(400);
-   dateTransformer.runAnimation(1400);
- 
+const animationIntroTitle = new AccentTypographyBuild(`.intro__title`, 500, `active-animation`, `transform`, false, 0);
+const animationContestDate = new AccentTypographyBuild(`.intro__date`, 500, `active-animation`, `transform`, true, 700);
+const animationHistoryTitle = new AccentTypographyBuild(`.slider__item-title`, 500, `active-animation`, `transform`, true, 0);
+const animationPrizesTitle = new AccentTypographyBuild(`.prizes__title`, 500, `active-animation`, `transform`, true, 0);

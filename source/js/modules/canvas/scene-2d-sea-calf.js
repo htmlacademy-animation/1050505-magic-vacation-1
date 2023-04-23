@@ -1,20 +1,17 @@
-import Animation from '../helpers/animation.js';
+import Animation from './animation.js';
 import Scene2D from './scene-2d.js';
-import animMethod from '../helpers/utils.js';
-
-const IMG_BASE_PATH = `./img/module-4/win-primary-images`;
+import _ from './utils.js';
 
 const IMAGES_URLS = Object.freeze({
-  plane: `${IMG_BASE_PATH}/airplane.png`,
-  tree: `${IMG_BASE_PATH}/tree.png`,
-  tree2: `${IMG_BASE_PATH}/tree-2.png`,
-  ice: `${IMG_BASE_PATH}/ice.png`,
-  seaCalf: `${IMG_BASE_PATH}/sea-calf-2.png`,
-  snowflake: `${IMG_BASE_PATH}/snowflake.png`
+  plane: `./img/win-primary-images/airplane.png`,
+  tree: `./img/win-primary-images/tree.png`,
+  tree2: `./img/win-primary-images/tree-2.png`,
+  ice: `./img/win-primary-images/ice.png`,
+  seaCalf: `./img/win-primary-images/sea-calf-2.png`,
+  snowflake: `./img/win-primary-images/snowflake.png`
 });
 
-
-const ELEMENTS = Object.freeze({
+const OBJECTS = Object.freeze({
   plane: {
     imageId: `plane`,
     x: 90,
@@ -22,13 +19,13 @@ const ELEMENTS = Object.freeze({
     size: 10,
     opacity: 0,
     transforms: {
-      translateY: -12
+      translateY: -10
     }
   },
   tree: {
     imageId: `tree`,
-    x: 62,
-    y: 60,
+    x: 65,
+    y: 62,
     size: 5,
     opacity: 0,
     transforms: {
@@ -37,8 +34,8 @@ const ELEMENTS = Object.freeze({
   },
   tree2: {
     imageId: `tree2`,
-    x: 58,
-    y: 58,
+    x: 60,
+    y: 60,
     size: 5,
     opacity: 0,
     transforms: {
@@ -49,7 +46,7 @@ const ELEMENTS = Object.freeze({
     imageId: `ice`,
     x: 50,
     y: 70,
-    size: 40,
+    size: 50,
     opacity: 0,
     transforms: {
       translateY: 30
@@ -57,8 +54,8 @@ const ELEMENTS = Object.freeze({
   },
   seaCalf: {
     imageId: `seaCalf`,
-    x: 48,
-    y: 62,
+    x: 50,
+    y: 60,
     size: 50,
     opacity: 0,
     transforms: {
@@ -67,9 +64,9 @@ const ELEMENTS = Object.freeze({
   },
   snowflake: {
     imageId: `snowflake`,
-    x: 29,
-    y: 58,
-    size: 20,
+    x: 25,
+    y: 55,
+    size: 30,
     opacity: 0,
     transforms: {
       rotate: -30
@@ -77,7 +74,7 @@ const ELEMENTS = Object.freeze({
   },
   snowflake2: {
     imageId: `snowflake`,
-    x: 71,
+    x: 75,
     y: 65,
     size: 15,
     opacity: 0,
@@ -87,7 +84,6 @@ const ELEMENTS = Object.freeze({
     }
   },
 });
-
 
 const LOCALS = Object.freeze({
   blob: {
@@ -102,28 +98,31 @@ const LOCALS = Object.freeze({
   }
 });
 
-
-export default class WinCanvasAnimation extends Scene2D {
+export default class Scene2DSeaCalf extends Scene2D {
   constructor() {
-    const canvas = document.getElementById(`win_primary_scene`);
+    const canvas = document.getElementById(`sea-calf-scene`);
 
     super({
       canvas,
-      elements: ELEMENTS,
+      objects: OBJECTS,
       locals: LOCALS,
       imagesUrls: IMAGES_URLS,
     });
+  }
+
+  beginAnimation() {
+    this.initLocals();
 
     this.afterInit = () => {
-      this.elements.plane.before = this.drawBlob.bind(this);
+      this.objects.plane.before = this.drawBlob.bind(this);
     };
 
     this.initEventListeners();
-    this.initElements(ELEMENTS);
+    this.initObjects(OBJECTS);
     this.initLocals();
+    this.start();
     this.updateSize();
   }
-
 
   initLocals() {
     this.locals = {
@@ -139,7 +138,6 @@ export default class WinCanvasAnimation extends Scene2D {
       }
     };
   }
-
 
   initAnimations() {
     this.animations.push(new Animation({
@@ -157,32 +155,30 @@ export default class WinCanvasAnimation extends Scene2D {
     this.initSnowflakesAnimations();
   }
 
-
   initPlaneAnimations() {
     this.animations.push(new Animation({
       func: (progress) => {
         const progressReversed = 1 - progress;
 
-        this.elements.plane.transforms.translateX = -39 * progressReversed;
-        this.elements.plane.transforms.translateY =
-          5 * Math.sin(Math.PI * progressReversed) - 14 * progressReversed;
-        this.elements.plane.transforms.rotate =
-          45 * Math.sin(Math.PI * progressReversed) + 44 * progressReversed;
-        this.elements.plane.opacity = progress;
+        this.objects.plane.transforms.translateX = -40 * progressReversed;
+        this.objects.plane.transforms.translateY =
+          5 * Math.sin(Math.PI * progressReversed) - 15 * progressReversed;
+        this.objects.plane.transforms.rotate =
+          45 * Math.sin(Math.PI * progressReversed) + 45 * progressReversed;
+        this.objects.plane.opacity = progress;
       },
       duration: 500,
-      delay: 1200,
-      easing: animMethod.easeInQuad
+      delay: 700,
+      easing: _.easeInQuad
     }));
   }
-
 
   initBlobAnimations() {
     this.animations.push(new Animation({
       func: (progress) => {
         const progressReversed = 1 - progress;
 
-        this.locals.blob.radius = 14 * progress;
+        this.locals.blob.radius = 15 * progress;
         this.locals.blob.centerY = 55 - 15 * progressReversed;
         this.locals.blob.endX = 87 - 35 * progressReversed;
         this.locals.blob.endY = 53 - 12 * progressReversed;
@@ -191,67 +187,64 @@ export default class WinCanvasAnimation extends Scene2D {
         this.locals.blob.opacity = progress;
       },
       duration: 500,
-      delay: 1200,
-      easing: animMethod.easeInQuad
+      delay: 700,
+      easing: _.easeInQuad
     }));
   }
-
 
   initTreesAnimations() {
     this.animations.push(new Animation({
       func: (progress) => {
-        this.elements.tree.transforms.translateY = 30 * (1 - progress);
-        this.elements.tree.opacity = progress;
+        this.objects.tree.transforms.translateY = 30 * (1 - progress);
+        this.objects.tree.opacity = progress;
       },
       duration: 500,
-      delay: 1200,
-      easing: animMethod.easeInQuad
+      delay: 700,
+      easing: _.easeInQuad
     }));
 
     this.animations.push(new Animation({
       func: (progress) => {
-        this.elements.tree2.transforms.translateY = 30 * (1 - progress);
-        this.elements.tree2.opacity = progress;
+        this.objects.tree2.transforms.translateY = 30 * (1 - progress);
+        this.objects.tree2.opacity = progress;
       },
       duration: 500,
-      delay: 1500,
-      easing: animMethod.easeInQuad
+      delay: 1000,
+      easing: _.easeInQuad
     }));
   }
-
 
   initSeaCalfAnimations() {
     this.animations.push(new Animation({
       func: (progress) => {
         const progressReversed = 1 - progress;
 
-        this.elements.seaCalf.transforms.translateY = 30 * progressReversed;
-        this.elements.seaCalf.transforms.rotate = -30 * Math.sin(progressReversed * 2);
+        this.objects.seaCalf.transforms.translateY = 30 * progressReversed;
+        this.objects.seaCalf.transforms.rotate = -30 * Math.sin(progressReversed * 2);
 
-        this.elements.ice.transforms.translateY = 30 * progressReversed;
-        this.elements.ice.transforms.rotate = -30 * Math.sin(progressReversed * 2);
+        this.objects.ice.transforms.translateY = 30 * progressReversed;
+        this.objects.ice.transforms.rotate = -30 * Math.sin(progressReversed * 2);
       },
       duration: 2000,
-      delay: 1000,
-      easing: animMethod.easeOutElastic
+      delay: 500,
+      easing: _.easeOutElastic
     }));
 
     this.animations.push(new Animation({
       func: (progress) => {
-        this.elements.seaCalf.opacity = progress;
-        this.elements.ice.opacity = progress;
+        this.objects.seaCalf.opacity = progress;
+        this.objects.ice.opacity = progress;
       },
       duration: 100,
-      delay: 1000,
-      easing: animMethod.easeInQuad
+      delay: 500,
+      easing: _.easeInQuad
     }));
   }
-
 
   initSnowflakesAnimations() {
     this.animations.push(new Animation({
       func: (progress, details) => {
-        this.elements.snowflake.transforms.translateY =
+        this.objects.snowflake.transforms.translateY =
           2 * Math.sin(1.5 * (details.currentTime - details.startTime) / 1000);
       },
       duration: `infinite`
@@ -259,32 +252,31 @@ export default class WinCanvasAnimation extends Scene2D {
 
     this.animations.push(new Animation({
       func: (progress, details) => {
-        this.elements.snowflake2.transforms.translateY =
+        this.objects.snowflake2.transforms.translateY =
           2 * Math.sin(1.5 * (details.currentTime - details.startTime) / 1000);
       },
       duration: `infinite`,
-      delay: 800
+      delay: 300
     }));
 
     this.animations.push(new Animation({
       func: (progress) => {
-        this.elements.snowflake.opacity = progress;
+        this.objects.snowflake.opacity = progress;
       },
       duration: 500,
-      delay: 1500,
-      easing: animMethod.easeInQuad
+      delay: 1000,
+      easing: _.easeInQuad
     }));
 
     this.animations.push(new Animation({
       func: (progress) => {
-        this.elements.snowflake2.opacity = progress;
+        this.objects.snowflake2.opacity = progress;
       },
       duration: 500,
-      delay: 1900,
-      easing: animMethod.easeInQuad
+      delay: 1400,
+      easing: _.easeInQuad
     }));
   }
-
 
   drawBlob() {
     const b = this.locals.blob;
@@ -319,7 +311,7 @@ export default class WinCanvasAnimation extends Scene2D {
     this.ctx.bezierCurveTo(
         (b.endX - b.deltasLength * Math.sin(angle)) * s,
         (b.endY + b.deltasLength * Math.cos(angle)) * s,
-        (b.centerX + 30) * s,
+        (b.centerX + 10) * s,
         (b.centerY + b.radius) * s,
         b.centerX * s,
         (b.centerY + b.radius) * s

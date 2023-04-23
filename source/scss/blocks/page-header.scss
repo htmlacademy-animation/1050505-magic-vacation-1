@@ -28,7 +28,6 @@
 
 .page-header__logo {
   @include hover;
-
   position: relative;
   flex: none;
   top: -0.5rem;
@@ -36,13 +35,13 @@
   padding: 1rem 0;
   width: 10rem;
   color: $c-light;
+  opacity: 0;
+  left: -20px;
+  transition: all 0.5s ease;
 
-  @include add-transition;
-  transform: translate(-110px, 0);
-
-  body.add-transition & {
-    left: 0;
+  body.loaded & {
     opacity: 1;
+    left: 0;
   }
 
   @media (min-width: $stop-scaling) {
@@ -139,13 +138,10 @@
 .page-header__nav {
   display: flex;
   align-items: center;
- 
   opacity: 0;
-  transition: opacity 1000ms cubic-bezier(0.1, 0.97, 0.6, 0.96);
-  //@include add-transition;
-  //transform: translate(100px);
+  transition: all 0.8s ease;
 
-  body.menu-opened & {
+  body.loaded & {
     opacity: 1;
   }
 
@@ -267,32 +263,24 @@
       width: 0;
       height: 2px;
       background-color: $c-light;
-      //display: none;
-      display: block;
-      left: 0;
-      transition: width 0.3s ease-out;
+      right: 0;
+      transition: width 0.3s ease-in-out;
 
       @media (max-width: $tablet) and (orientation: portrait) {
-        left: 0;
         right: 0;
         background-color: $c-dark;
       }
 
       @media (max-width: $mobile) and (orientation: landscape) {
-        left: 0;
         right: 0;
         background-color: $c-dark;
       }
     }
 
-    &.active {
-      border-bottom: 1px solid #fff;
+    body.loaded &.active {
       &::after {
-        display: block;
-      }
-      &:hover:after,
-      &:focus:after {
-        width: 0; 
+        left: 0;
+        width: 100%;
       }
     }
 
@@ -300,48 +288,44 @@
     &:focus {
       color: $c-purple;
       outline: none;
-      width: 100%;
 
       &::after {
         opacity: 1;
         background-color: $c-purple;
+        left: 0;
+        width: 100%;
       }
     }
 
-    &:hover:after,
-    &:focus:after {
-      width: 100%; 
-    }
-
-    .page-header--water & {
+    body.second & {
       &:hover,
       &:focus {
-        color: $secondary-light;
+        color: #56a1ff;
 
         &::after {
-          background-color: $secondary-light;
+          background-color: #56a1ff;
         }
       }
     }
 
-    .page-header--ice & {
+    body.third & {
       &:hover,
       &:focus {
-        color: $tertiary-contrast;
+        color: #66bcd6;
 
         &::after {
-          background-color: $tertiary-contrast;
+          background-color: #66bcd6;
         }
       }
     }
 
-    .page-header--light & {
+    body.fourth & {
       &:hover,
       &:focus {
-        color: $c-dark;
+        color: #ca7af3;
 
         &::after {
-          background-color: $c-dark;
+          background-color: #ca7af3;
         }
       }
     }

@@ -17,9 +17,7 @@
   height: 4rem;
   color: $c-dark;
   border-radius: 50%;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
-
+  transition: color 0.3s ease-in-out;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: none;
@@ -32,14 +30,19 @@
   &::before {
     @include center;
     content: "";
-    width: 100%;
-    height: 100%;
+    width: 0;
+    height: 0;
     border-radius: 50%;
     background-color: $c-light;
     border: 2px solid $c-light;
     z-index: -1;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+
+  body.loaded &::before {
+    transition: width 0.5s cubic-bezier(0.18, 1.85, 1, 0.82), height 0.5s cubic-bezier(0.18, 1.85, 1, 0.82);
+    width: 100%;
+    height: 100%;
   }
 
   svg {
@@ -49,7 +52,7 @@
     height: 2.2rem;
   }
 
-  &:hover,
+  body.loaded &:hover,
   .social-block--active & {
     color: $c-purple;
 
@@ -57,6 +60,30 @@
       width: 112.5%;
       height: 112.5%;
     }
+
+    body.second & {
+      color: #56a1ff;
+    }
+
+    body.third & {
+      color: #66bcd6;
+    }
+
+    body.fourth & {
+      color: #ca7af3;
+    }
+  }
+
+  body.second & {
+    color: #1453a2;
+  }
+
+  body.third & {
+    color: #598e9e;
+  }
+
+  body.fourth & {
+    color: #7c35a0;
   }
 
   &:focus {
@@ -84,83 +111,6 @@
       border-color: $c-purple;
     }
   }
-  .page-header--water & {
-    color: $secondary;
-
-    &:hover {
-      color: $secondary-light;
-    }
-
-    &:focus {
-      color: $secondary-light;
-
-      &::before {
-        border-color: $secondary-light;
-      }
-    }
-
-    &:active,
-    &:active:focus {
-      color: $c-light;
-
-      &::before {
-        background-color: $secondary-light;
-        border-color: $secondary-light;
-      }
-    }
-  }
-
-  .page-header--ice & {
-    color: $tertiary;
-
-    &:hover {
-      color: $tertiary-contrast;
-    }
-
-    &:focus {
-      color: $tertiary-contrast;
-
-      &::before {
-        border-color: $tertiary-contrast;
-      }
-    }
-
-    &:active,
-    &:active:focus {
-      color: $c-light;
-
-      &::before {
-        background-color: $tertiary-contrast;
-        border-color: $tertiary-contrast;
-      }
-    }
-  }
-
-  .page-header--light & {
-    color: $c-purple;
-
-    &:hover {
-      color: $c-dark;
-    }
-
-    &:focus {
-      color: $c-dark;
-
-      &::before {
-        border-color: $c-dark;
-      }
-    }
-
-    &:active,
-    &:active:focus {
-      color: $c-light;
-
-      &::before {
-        background-color: $c-dark;
-        border-color: $c-dark;
-      }
-    }
-  }
 }
 
 .social-block__list {
@@ -171,8 +121,6 @@
   margin-top: 1.5rem;
   opacity: 0;
   pointer-events: none;
-  transition-property: opacity;
-  transition-duration: 0.2s;
 
   @media (min-width: $stop-scaling) {
     margin-top: 15px;
@@ -224,31 +172,11 @@
   .social-block--active & {
     opacity: 1;
     pointer-events: auto;
-    li {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
   }
 
   li {
     flex: none;
     margin-bottom: 0.5rem;
-    opacity: 0;
-    transform: translateY(10px) scale(0.8);
-    transition-duration: 0.3s;
-    transition-property: transform, opacity;
-    transition-timing-function: ease-out, ease-in;
-    &:nth-child(1) {
-      transition-delay: 50ms;
-    }
-
-    &:nth-child(2) {
-      transition-delay: 100ms;
-    }
-
-    &:nth-child(3) {
-      transition-delay: 150ms;
-    }
 
     @media (min-width: $stop-scaling) {
       margin-bottom: 5px;
@@ -272,8 +200,11 @@
   color: $c-light;
   border: 2px solid transparent;
   border-radius: 50%;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in;
+  opacity: 0;
+  transition-property: all;
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+  bottom: -20px;
 
   @media (min-width: $stop-scaling) {
     width: 40px;
@@ -292,6 +223,18 @@
 
   &:hover {
     color: $c-purple;
+
+    body.second & {
+      color: #56a1ff;
+    }
+
+    body.third & {
+      color: #66bcd6;
+    }
+
+    body.fourth & {
+      color: #ca7af3;
+    }
   }
 
   &:focus {
@@ -345,6 +288,25 @@
         width: 10px;
         height: 10px;
       }
+    }
+  }
+}
+
+.social-block--active {
+  .social-block__link {
+    opacity: 1;
+    bottom: 0;
+
+    &--fb {
+      transition-delay: 150ms;
+    }
+
+    &--insta {
+      transition-delay: 250ms;
+    }
+
+    &--vk {
+      transition-delay: 350ms;
     }
   }
 }

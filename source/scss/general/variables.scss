@@ -2,12 +2,6 @@ $c-light: #ffffff;
 $c-dark: #5f458c;
 $c-purple: #a67ee5;
 
-$secondary: #3e72ee;
-$secondary-light: #a0ceff;
-
-$tertiary: #90b8e2;
-$tertiary-contrast: $secondary;
-
 $font: "Proxima Nova", "Arial", sans-serif;
 $font-alt: "Radical",  "Arial", sans-serif;
 
@@ -25,23 +19,3 @@ $retina-dpi: 144dpi;
 $retina-dppx: 1.5dppx;
 
 $index: 1.38871;
-$t-long-ease-out: cubic-bezier(0.14, 0.57, 0.32, 0.9);
-
-/* region result */
-$result-screen-img-anim-timing-function: cubic-bezier(0.69, 1.5, 0.83, 1.18);
-$result-screen-img-anim-duration: .5s;
-$result-screen-img-other-anim-delay: .4s;
-
-$result-screen-img-anim-other-duration: 3s;
-$result-screen-img-anim-green-duration: $result-screen-img-anim-other-duration - 0.2s;
-$result-screen-anim-form-delay: 1s;
-
-$result-button-show-anim-duration: .3s;
-$result-button-show-opacity-duration: .3s;
-/* endregion result */
-
-/* region rules */
-$rules-item-anim-duration: .3s;
-$rules-btn-anim-duration: .4s;
-$rules-item-anim-delay: .15s;
-/* endregion rules */

@@ -1,66 +1,53 @@
-import debounce from 'lodash/debounce';
-import {activatePrizesTitleAnimation, activateCasesTitleAnimation, activateSvg, removeSrc} from './prize-svg-animation';
+import throttle from 'lodash/throttle';
+import CounterAnimation from './counter';
+import CounterPrizesAnimation from './counter-prizes';
 
 export default class FullPageScroll {
   constructor() {
-    this.DEBOUNCE_TIMEOUT = 200;
+    this.THROTTLE_TIMEOUT = 1000;
+    this.scrollFlag = true;
+    this.timeout = null;
 
     this.screenElements = document.querySelectorAll(`.screen:not(.screen--result)`);
     this.menuElements = document.querySelectorAll(`.page-header__menu .js-menu-link`);
 
     this.activeScreen = 0;
-    this.previousScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
-    this.transitionsWithTimeout = [{prev: `story`, next: `prizes`}, {prev: `prizes`, next: `rules`}];
-    this.timeOuts = [];
+    this.counterAnimation = null;
+    this.counterCasesAnimation = null;
+    this.counterCodesAnimation = null;
   }
 
   init() {
-    document.addEventListener(`wheel`, debounce(this.onScrollHandler, this.DEBOUNCE_TIMEOUT, {trailing: true}));
+    document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
 
     this.onUrlHashChanged();
   }
 
   onScroll(evt) {
-    const currentPosition = this.activeScreen;
-    this.reCalculateActiveScreenPosition(evt.deltaY);
-    if (currentPosition !== this.activeScreen) {
-      this.changePageDisplay();
+    if (this.scrollFlag) {
+      this.reCalculateActiveScreenPosition(evt.deltaY);
+      const currentPosition = this.activeScreen;
+      if (currentPosition !== this.activeScreen) {
+        this.changePageDisplay();
+      }
     }
-  }
-
-  clearTimeouts() {
-    this.timeOuts.forEach((timeout) => clearTimeout(timeout));
+    this.scrollFlag = false;
+    if (this.timeout !== null) {
+      clearTimeout(this.timeout);
+    }
+    this.timeout = setTimeout(() => {
+      this.timeout = null;
+      this.scrollFlag = true;
+    }, this.THROTTLE_TIMEOUT);
   }
 
   onUrlHashChanged() {
     const newIndex = Array.from(this.screenElements).findIndex((screen) => location.hash.slice(1) === screen.id);
-    this.previousScreen = this.activeScreen;
     this.activeScreen = (newIndex < 0) ? 0 : newIndex;
     this.changePageDisplay();
-  }
-
-  activateSvgs() {
-    if (this.activeScreen === 2 && this.previousScreen !== 2) {
-      const prizesSection = document.querySelector(`.prizes`);
-      const prize1item = prizesSection.querySelector(`.prizes__item--journeys`);
-      const prize2item = prizesSection.querySelector(`.prizes__item--cases`);
-      const prize3item = prizesSection.querySelector(`.prizes__item--codes`);
-      const imgPrize1 = prizesSection.querySelector(`.prizes__prize1`);
-      const imgPrize2 = prizesSection.querySelector(`.prizes__prize2`);
-      const imgPrize3 = prizesSection.querySelector(`.prizes__prize3`);
-      const timeouts = this.previousScreen === 1 ? [333, 3666, 5888] : [0, 3333, 5555];
-      [prize1item, prize2item, prize3item].forEach((item) => item.classList.remove(`prizes__item--active`));
-      [imgPrize1, imgPrize2, imgPrize3].forEach(removeSrc);
-
-      activateSvg(prize1item, imgPrize1, `img/animated/award.svg`, timeouts[0], this.timeOuts);
-      activateSvg(prize2item, imgPrize2, `img/prize2.svg`, timeouts[1], this.timeOuts);
-      activateSvg(prize3item, imgPrize3, `img/prize3.svg`, timeouts[2], this.timeOuts);
-      this.timeOuts.push(activateCasesTitleAnimation(`.prizes__item--cases .prizes__desc b`, `1`, `7`, timeouts[1] + 600));
-      this.timeOuts.push(activatePrizesTitleAnimation(`.prizes__item--codes .prizes__desc b`, `11`, `900`, timeouts[2] + 650));
-    }
   }
 
   changePageDisplay() {
@@ -69,34 +56,75 @@ export default class FullPageScroll {
     this.emitChangeDisplayEvent();
   }
 
-  changeScreenTransitionDuration(prevId, activeId) {
-    return this.transitionsWithTimeout.some((transition) => {
-      return prevId === transition.prev && activeId === transition.next;
-    }) ? 350 : 0;
-  }
-
   changeVisibilityDisplay() {
-    this.clearTimeouts();
-    this.activateSvgs();
-    const timeout = this.changeScreenTransitionDuration(this.screenElements[this.previousScreen].id, this.screenElements[this.activeScreen].id);
+    let isHistoryScreen = false;
+    const hiddenClass = `screen--hidden`;
+    const activeClass = `active`;
+    const bgClass = `fill-bg`;
 
     this.screenElements.forEach((screen) => {
-      if (timeout && (screen.id === `story` || screen.id === `prizes`)) {
+      if (screen.id === `story` && screen.classList.contains(activeClass)) {
+        isHistoryScreen = true;
+        screen.classList.remove(activeClass);
+        screen.classList.add(bgClass);
+
         setTimeout(() => {
-          screen.classList.add(`screen--hidden`);
-        }, timeout);
+          screen.classList.add(hiddenClass);
+          screen.classList.remove(bgClass);
+        }, 450);
       } else {
-        screen.classList.add(`screen--hidden`);
+        screen.classList.add(hiddenClass);
+        screen.classList.remove(activeClass);
       }
-      screen.classList.remove(`active`);
     });
 
-    if (timeout) {
-      setTimeout(() => this.screenElements[this.activeScreen].classList.remove(`screen--hidden`), timeout);
+    if (isHistoryScreen) {
+      setTimeout(() => {
+        this.setActiveScreen();
+      }, 450);
     } else {
-      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+      this.setActiveScreen();
     }
-    setTimeout(() => this.screenElements[this.activeScreen].classList.add(`active`), 0);
+  }
+
+  setActiveScreen() {
+    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    setTimeout(() => {
+      this.screenElements[this.activeScreen].classList.add(`active`);
+    }, 100);
+
+    // generate random path for  prizes svg. For start img animation after open prize screen
+    if (this.screenElements[this.activeScreen][`id`] === `prizes`) {
+      document.querySelectorAll(`.prizes__list img`).forEach((element) => {
+        element.src = `${element.src}?${Math.floor(Math.random() * 1000000000)}`;
+      });
+
+      this.counterCasesAnimation = new CounterPrizesAnimation(document.querySelector(`.prizes__item--cases .prizes__desc > b`), 1, 7, 6800);
+      this.counterCasesAnimation.startCounter();
+
+      this.counterCodesAnimation = new CounterPrizesAnimation(document.querySelector(`.prizes__item--codes .prizes__desc > b`), 11, 900, 7800);
+      this.counterCodesAnimation.startCounter();
+    }
+
+    this.initCounter(this.screenElements[this.activeScreen][`id`]);
+  }
+
+  initCounter(activeScreen) {
+    if (activeScreen === `game` && this.counterAnimation === null) {
+      this.counterAnimation = new CounterAnimation(document.querySelectorAll(`.game__counter span`));
+      this.counterAnimation.startCounter();
+    }
+
+    if (activeScreen === `game` && this.counterAnimation !== null) {
+      this.counterAnimation.stopCounter();
+      this.counterAnimation = new CounterAnimation(document.querySelectorAll(`.game__counter span`));
+      this.counterAnimation.startCounter();
+    }
+
+    if (activeScreen !== `game` && this.counterAnimation) {
+      this.counterAnimation.stopCounter();
+      this.counterAnimation = null;
+    }
   }
 
   changeActiveMenuItem() {
@@ -112,15 +140,14 @@ export default class FullPageScroll {
       detail: {
         'screenId': this.activeScreen,
         'screenName': this.screenElements[this.activeScreen].id,
-        'screenElement': this.screenElements[this.activeScreen],
-      },
+        'screenElement': this.screenElements[this.activeScreen]
+      }
     });
 
     document.body.dispatchEvent(event);
   }
 
   reCalculateActiveScreenPosition(delta) {
-    this.previousScreen = this.activeScreen;
     if (delta > 0) {
       this.activeScreen = Math.min(this.screenElements.length - 1, ++this.activeScreen);
     } else {

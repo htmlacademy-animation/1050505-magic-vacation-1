@@ -1,30 +1,16 @@
 import Swiper from "swiper";
+import Story from "./three-js/story";
 
 export default () => {
   let storySlider;
-  let sliderContainer = document.getElementById(`story`);
-  const pageHeader = document.querySelector(`.page-header`);
-  const headerClasses = [`page-header--water`, `page-header--ice`, `page-header--light`];
-  sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
-  document.body.addEventListener(`screenChanged`, (e) => {
-    changeHeaderClass(e.detail.screenName);
-  });
 
-  const changeHeaderClass = (screen) => {
-    pageHeader.classList.remove(...headerClasses);
-    if (screen && screen !== `story`) {
-      return;
-    }
-    if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
-      pageHeader.classList.add(headerClasses[2]);
-    } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
-      pageHeader.classList.add(headerClasses[0]);
-    } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
-      pageHeader.classList.add(headerClasses[1]);
-    }
-  };
+  const story = new Story(`canvas-story`);
+
+  story.init();
 
   const setSlider = function () {
+    const body = document.body;
+
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
       storySlider = new Swiper(`.js-slider`, {
         pagination: {
@@ -37,19 +23,18 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
-              sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
+              story.setScene(0);
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
-              sliderContainer.style.backgroundImage = `url("img/slide2.jpg"), linear-gradient(180deg, rgba(45, 54, 179, 0) 0%, #2A34B0 16.85%)`;
+              story.setScene(1);
             } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
-              sliderContainer.style.backgroundImage = `url("img/slide3.jpg"), linear-gradient(180deg, rgba(92, 138, 198, 0) 0%, #5183C4 16.85%)`;
+              story.setScene(2);
             } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
-              sliderContainer.style.backgroundImage = `url("img/slide4.jpg"), linear-gradient(180deg, rgba(45, 39, 63, 0) 0%, #2F2A42 16.85%)`;
+              story.setScene(3);
             }
-            changeHeaderClass();
           },
           resize: () => {
             storySlider.update();
-          },
+          }
         },
         observer: true,
         observeParents: true
@@ -72,15 +57,22 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
-              sliderContainer.style.backgroundImage = `url("img/slide1.jpg")`;
+              body.classList.remove(`second`, `third`, `fourth`);
+              body.classList.add(`first`);
+              story.setScene(0);
             } else if (storySlider.activeIndex === 2) {
-              sliderContainer.style.backgroundImage = `url("img/slide2.jpg")`;
+              body.classList.remove(`first`, `third`, `fourth`);
+              body.classList.add(`second`);
+              story.setScene(1);
             } else if (storySlider.activeIndex === 4) {
-              sliderContainer.style.backgroundImage = `url("img/slide3.jpg")`;
+              body.classList.remove(`first`, `second`, `fourth`);
+              body.classList.add(`third`);
+              story.setScene(2);
             } else if (storySlider.activeIndex === 6) {
-              sliderContainer.style.backgroundImage = `url("img/slide4.jpg")`;
+              body.classList.add(`fourth`);
+              body.classList.remove(`first`, `third`, `second`);
+              story.setScene(3);
             }
-            changeHeaderClass();
           },
           resize: () => {
             storySlider.update();

@@ -1,6 +1,6 @@
 # Личный проект «Таинственный отпуск» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
-* Студент: [olga garder](https://up.htmlacademy.ru/animation/1/user/1050505).
+* Студент: [Егор Перхальский](https://up.htmlacademy.ru/animation/1/user/214038).
 
 ---
 
@@ -23,7 +23,7 @@ _`.editorconfig`, `.gitattributes`, `.gitignore`, `.stylelintrc`, `.travis.yml`,
 
 #### 2. Создайте форк
 
-[Откройте мастер-репозиторий](https://github.com/htmlacademy-animation/1050505-magic-vacation-1) и нажмите кнопку «Fork» в правом верхнем углу. Репозиторий из Академии будет скопирован в ваш аккаунт.
+[Откройте мастер-репозиторий](https://github.com/htmlacademy-animation/214038-magic-vacation-1) и нажмите кнопку «Fork» в правом верхнем углу. Репозиторий из Академии будет скопирован в ваш аккаунт.
 
 <img width="800" alt="" src="https://user-images.githubusercontent.com/8537950/80361146-1efcc300-8889-11ea-8aec-b03aa0dc5958.png">
 
@@ -53,7 +53,7 @@ git clone SSH-адрес_вашего_форка
 
 Репозиторий создан для обучения на профессиональном онлайн‑курсе «[Анимация для фронтендеров](https://htmlacademy.ru/intensive/animation)» от [HTML Academy](https://htmlacademy.ru).
 
-[travis-image]: https://travis-ci.com/htmlacademy-animation/1050505-magic-vacation-1.svg?branch=master
-[travis-url]: https://travis-ci.com/htmlacademy-animation/1050505-magic-vacation-1
-[dependency-image]: https://david-dm.org/htmlacademy-animation/1050505-magic-vacation-1/dev-status.svg?style=flat-square
-[dependency-url]: https://david-dm.org/htmlacademy-animation/1050505-magic-vacation-1?type=dev
+[travis-image]: https://travis-ci.com/htmlacademy-animation/214038-magic-vacation-1.svg?branch=master
+[travis-url]: https://travis-ci.com/htmlacademy-animation/214038-magic-vacation-1
+[dependency-image]: https://david-dm.org/htmlacademy-animation/214038-magic-vacation-1/dev-status.svg?style=flat-square
+[dependency-url]: https://david-dm.org/htmlacademy-animation/214038-magic-vacation-1?type=dev

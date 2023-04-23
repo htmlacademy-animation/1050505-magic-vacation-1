@@ -1,23 +1,19 @@
-import animMethod from './utils.js';
-
-/*
-* Utils for animation
-*/
+import _ from './utils.js';
 
 export default class Animation {
   constructor(options) {
     this.options = options;
 
     if (!this.options.easing) {
-      this.options.easing = animMethod.easeLinear;
-    }
-
-    if (!this.options.delay) {
-      this.options.delay = 0;
+      this.options.easing = _.easeLinear;
     }
 
     if (!this.options.duration) {
       this.options.duration = 1000;
+    }
+
+    if (!this.options.delay) {
+      this.options.delay = 0;
     }
 
     if (!this.options.fps) {
@@ -27,7 +23,6 @@ export default class Animation {
     this.timeoutId = null;
     this.requestId = null;
   }
-
 
   start(options) {
     this.stop();
@@ -99,11 +94,9 @@ export default class Animation {
     }, this.options.delay);
   }
 
-
   restart() {
     this.start();
   }
-
 
   stop() {
     if (this.timeoutId) {

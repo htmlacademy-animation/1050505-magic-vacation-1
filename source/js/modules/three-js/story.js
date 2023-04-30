@@ -1,6 +1,8 @@
 import ThreeJsCanvas from "./three-js-canvas";
 import * as THREE from "three";
 import {storyRowShaderMaterial} from "./simple-raw-shader-material";
+import Scene2Slide from "./scenes/slide-2";
+import Scene3Slide from "./scenes/slide-3";
 
 let animationHueSettings = {
   initialHue: 0,
@@ -8,6 +10,15 @@ let animationHueSettings = {
   currentHue: 0,
   duration: 1,
   timeStart: -1
+};
+
+export const setMaterial = (options = {}) => {
+  const {color, ...other} = options;
+
+  return new THREE.MeshStandardMaterial({
+    color: new THREE.Color(color),
+    ...other
+  });
 };
 
 export default class Story extends ThreeJsCanvas {
@@ -22,8 +33,8 @@ export default class Story extends ThreeJsCanvas {
 
     this.textures = [
       {src: `./img/module-5/scenes-textures/scene-1.png`, options: {hue: 0.0}},
-      {src: `./img/module-5/scenes-textures/scene-2.png`, options: {hue: 0.0, isMagnifier: true}},
-      {src: `./img/module-5/scenes-textures/scene-3.png`, options: {hue: 0.0}},
+      {src: `./img/module-5/scenes-textures/scene-2.png`, options: {hue: 0.0, isMagnifier: true}, scene: new Scene2Slide()},
+      {src: `./img/module-5/scenes-textures/scene-3.png`, options: {hue: 0.0}, scene: new Scene3Slide()},
       {src: `./img/module-5/scenes-textures/scene-4.png`, options: {hue: 0.0}}
     ];
 
@@ -70,97 +81,99 @@ export default class Story extends ThreeJsCanvas {
   }
 
   init() {
-     const self = this;
+    const self = this;
 
-     this.canvas = document.getElementById(this.canvasId);
-     this.canvas.width = this.width;
-     this.canvas.height = this.height;
+    this.canvas = document.getElementById(this.canvasId);
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
 
-     this.color = new THREE.Color(0x5f458c);
-     this.alpha = 1;
+    this.color = new THREE.Color(0x5f458c);
+    this.alpha = 1;
 
-     this.scene = new THREE.Scene();
+    this.scene = new THREE.Scene();
 
-     this.renderer = new THREE.WebGLRenderer({
-       canvas: this.canvas,
-       alpha: true,
-       antialias: false,
-       logarithmicDepthBuffer: false,
-       powerPreference: `high-performance`
-     });
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
+      alpha: true,
+      antialias: false,
+      logarithmicDepthBuffer: false,
+      powerPreference: `high-performance`
+    });
 
-     this.renderer.setClearColor(this.color, this.alpha);
-     this.renderer.setPixelRatio(window.devicePixelRatio);
-     this.renderer.setSize(this.width, this.height);
+    this.renderer.setClearColor(this.color, this.alpha);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(this.width, this.height);
 
-     this.camera = new THREE.PerspectiveCamera(35, this.aspectRation, 0.1, 1200);
-     this.camera.position.z = 750;
+    this.camera = new THREE.PerspectiveCamera(35, this.aspectRation, 0.1, 1200);
+    this.camera.position.z = 750;
 
-     const loadManager = new THREE.LoadingManager();
-     const textureLoader = new THREE.TextureLoader(loadManager);
-     const loadedTextures = this.textures.map((texture) =>
-       ({src: textureLoader.load(texture.src), options: texture.options})
-     );
+    const loadManager = new THREE.LoadingManager();
+    const textureLoader = new THREE.TextureLoader(loadManager);
+    const loadedTextures = this.textures.map((texture) =>
+      ({src: textureLoader.load(texture.src), options: texture.options, scene: texture.scene})
+    );
 
-     loadManager.onLoad = () => {
-       loadedTextures.forEach((texture, index) => {
-         const geometry = new THREE.PlaneGeometry(1, 1);
-         const material = self.createMaterial(texture, index);
-         const mesh = new THREE.Mesh(geometry, material);
+    loadManager.onLoad = () => {
+      loadedTextures.forEach((texture, index) => {
+        const geometry = new THREE.PlaneGeometry(1, 1);
+        const material = self.createMaterial(texture, index);
+        const mesh = new THREE.Mesh(geometry, material);
 
-         mesh.scale.x = this.textureWidth;
-         mesh.scale.y = this.textureHeight;
-         mesh.position.x = this.textureWidth * index;
+        mesh.scale.x = this.textureWidth;
+        mesh.scale.y = this.textureHeight;
+        mesh.position.x = this.textureWidth * index;
 
-         this.scene.add(mesh);
-         this.scene.add(this.getSphere());
+        if (texture.scene) {
+          texture.scene.position.x = this.textureWidth * index;
+          this.scene.add(texture.scene);
+        }
 
-         const lights = this.getLight();
+        this.scene.add(mesh);
+        this.scene.add(this.getSphere());
 
-         lights.position.z = this.camera.position.z;
-         this.scene.add(lights);
+        const lights = this.getLight();
 
-         this.render();
-       });
-     };
+        lights.position.z = this.camera.position.z;
+        this.scene.add(lights);
 
-     this.render();
-   }
+        this.render();
+      });
+    };
 
-   getSphere() {
-     const geometry = new THREE.SphereGeometry(100, 50, 50);
+    this.render();
+  }
 
-     const material = new THREE.MeshStandardMaterial({
-       color: 0xa40c00,
-       metalness: 0.05,
-       emissive: 0x0,
-       roughness: 0.5
-     });
+  getSphere() {
+    const geometry = new THREE.SphereGeometry(100, 50, 50);
 
-     return new THREE.Mesh(geometry, material);
-   }
+    const material = new THREE.MeshStandardMaterial({
+      color: 0xa40c00,
+      metalness: 0.05,
+      emissive: 0x0,
+      roughness: 0.5
+    });
 
-   getLight() {
-     const light = new THREE.Group();
+    return new THREE.Mesh(geometry, material);
+  }
 
-     // Light 1
-     let lightUnit = new THREE.PointLight(new THREE.Color(`rgb(255,255,255)`), 0.84);
+  getLight() {
+    const light = new THREE.Group();
 
-     lightUnit.position.set(0, this.camera.position.z * Math.tan(-15 * THREE.Math.DEG2RAD), this.camera.position.z);
-     light.add(lightUnit);
+    let lightUnit = new THREE.DirectionalLight(new THREE.Color(`rgb(255,255,255)`), 0.30);
 
-     // Light 2
-     lightUnit = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.60, 975, 2);
-     lightUnit.position.set(-785, -350, 710);
-     light.add(lightUnit);
+    lightUnit.position.set(0, this.camera.position.z * Math.tan(-15 * THREE.Math.DEG2RAD), this.camera.position.z);
+    light.add(lightUnit);
 
-     // Light 3
-     lightUnit = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.95, 975, 2);
-     lightUnit.position.set(730, -800, 985);
-     light.add(lightUnit);
+    lightUnit = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.60, 3000, 2);
+    lightUnit.position.set(-785, -350, 710);
+    light.add(lightUnit);
 
-     return light;
-   }
+    lightUnit = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.95, 3000, 2);
+    lightUnit.position.set(730, -800, 985);
+    light.add(lightUnit);
+
+    return light;
+  }
 
   addBubble(index) {
     const width = this.renderer.getSize().width;

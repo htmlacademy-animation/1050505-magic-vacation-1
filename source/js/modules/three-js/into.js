@@ -1,16 +1,14 @@
-import ThreeJsCanvas from "./three-js-canvas";
+// файл не нужен сейчас и нигде не используется, сохранен чтобы потом полезный код перенести
+
 import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import IntroScene from "./scenes/intro-scene";
 import {animateIntroObjects, AnimationSuitcaseIntro} from "./scenes/helpers/animate-intro-objects";
 import {meshObjects} from "./scenes/intro-scene";
+import {AnimationAirplane} from "./scenes/helpers/animation-plane";
 
-export default class Intro extends ThreeJsCanvas {
-  constructor(canvasId) {
-    super({
-      canvasId
-    });
-
+export default class Intro {
+  constructor() {
     this.textures = [{src: `./img/module-5/scenes-textures/scene-0.png`, options: {hue: 0.0}}];
     this.render = this.render.bind(this);
     this.firstLoaded = true;
@@ -158,6 +156,15 @@ export default class Intro extends ThreeJsCanvas {
       if (this.suitcase) {
         clearInterval(timerId2);
         const animationSuitcaseIntro = new AnimationSuitcaseIntro(this.suitcase);
+      }
+    }, 100);
+
+    let timerId3 = setInterval(() => {
+      this.airplane = meshObjects.airplane;
+
+      if (this.airplane) {
+        clearInterval(timerId3);
+        const animationAirplane = new AnimationAirplane(this.airplane);
       }
     }, 100);
   }

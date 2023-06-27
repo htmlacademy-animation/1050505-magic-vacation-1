@@ -71095,6 +71095,7 @@ class IntroAndStory {
 
     this.camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](45, this.aspectRation, 0.1, 20000);
 
+    // пока что отключил
     // this.controls = new OrbitControls(this.camera, document.getElementById(`top`));
 
     this.addScene();
